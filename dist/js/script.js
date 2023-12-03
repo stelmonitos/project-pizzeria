@@ -154,7 +154,8 @@ const select = {
             if(option.default == true)
               // reduce price variable
             price -= option.price;
-          }
+          } 
+          // BREAKFAST NIE DZIALA DODAWANIE OGARNAC TO!!!!!!!!!!!
         }
       }
 
