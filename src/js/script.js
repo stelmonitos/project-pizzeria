@@ -155,9 +155,10 @@ const select = {
             }
           } else {
             // check if the option is default
-            if(option.default == true)
+            if(option.default == true){
               // reduce price variable
             price -= option.price;
+            }
             if(optionImage){
               optionImage.classList.remove('active');
             }
