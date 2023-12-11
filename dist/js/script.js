@@ -6,6 +6,7 @@
 const select = {
   templateOf: {
     menuProduct: "#template-menu-product",
+    cartProduct: '#template-cart-product',
     },
     containerOf: {
       menu: '#product-list',
@@ -33,19 +34,18 @@ const select = {
     },
   };
 
-  const classNames = {
-    menuProduct: {
-      wrapperActive: 'active',
-      imageVisible: 'active',
-    },
-  };
+  // const classNames = {
+  //   menuProduct: {
+  //     wrapperActive: 'active',
+  //     imageVisible: 'active',
+  //   },
+  // };
 
   const settings = {
     amountWidget: {
       defaultValue: 1,
       defaultMin: 0,
       defaultMax: 10,
-      // console.log(settings)
     }
   };
 
@@ -167,6 +167,8 @@ const select = {
           }
         }
       }
+      /* multiply price by amount */
+      price *= thisProduct.amountWidget.value;
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
     }
@@ -174,15 +176,25 @@ const select = {
       const thisProduct = this;
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){
+        thisProduct.processOrder()
+      });
     }
   }
   class AmountWidget{
     constructor(element){
       const thisWidget = this;
-
+      
       thisWidget.getElements(element);
-      console.log('AmountWidget:', thisWidget);
-      console.log('constructor arguments:', element);
+      thisWidget.setValue();
+      if(thisWidget.input.value !== 'undefined'){
+        thisWidget.setValue(thisWidget.input.value);
+      } else if (thisWidget.input.value === 'undefined')
+      thisWidget.setValue(settings.amountWidget.defaultValue);
+      // console.log(thisWidget.input.value)
+      thisWidget.initActions();
+      // console.log('AmountWidget:', thisWidget);
+      // console.log('constructor arguments:', element);
     }
     getElements(element){
       const thisWidget = this;
@@ -194,13 +206,39 @@ const select = {
     }
     setValue(value){
       const thisWidget = this;
-
       const newValue = parseInt(value);
-
       /*TODO: Add validation*/
-
+      if(thisWidget.value !== newValue && !isNaN(newValue)){
       thisWidget.value = newValue;
+      } if (newValue < settings.amountWidget.defaultMin) {
+        thisWidget.value = settings.amountWidget.defaultMin;
+      } if (newValue > settings.amountWidget.defaultMax) {
+        thisWidget.value = settings.amountWidget.defaultMax;
+      }
+      console.log('thisWidget.input.value:', thisWidget.input.value)
+      console.log('thisWidget.value:', thisWidget.value)
+      
       thisWidget.input.value = thisWidget.value;
+      this.announce();
+    }
+    initActions(){
+      const thisWidget = this;
+     
+      thisWidget.input.addEventListener('change', function(){
+        thisWidget.setValue(thisWidget.input.value)
+      });
+      thisWidget.linkDecrease.addEventListener('click', function(){
+        thisWidget.setValue(--thisWidget.value)
+      });
+      thisWidget.linkIncrease.addEventListener('click', function(){
+        thisWidget.setValue(++thisWidget.value)
+      });
+    }
+    announce(){
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
     }
     }
   
