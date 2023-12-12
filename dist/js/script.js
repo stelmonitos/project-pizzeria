@@ -82,6 +82,7 @@ const select = {
   class Product{
     constructor(id, data){
       const thisProduct = this;
+
       thisProduct.id = id;
       thisProduct.data = data;
       thisProduct.renderInMenu();
@@ -148,6 +149,7 @@ const select = {
        thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
        });
     }
     processOrder(){
@@ -164,7 +166,6 @@ const select = {
         //determine param value, e.g paramId = 'toppings', param = {label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
         // console.log(paramId, param);
-
         // for every option in this category
         for(let optionId in param.options) {
           // dtermine option Value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
@@ -196,6 +197,7 @@ const select = {
       /* multiply price by amount */
       price *= thisProduct.amountWidget.value;
       // update calculated price in the HTML
+      thisProduct.priceSingle = price;
       thisProduct.priceElem.innerHTML = price;
     }
     initAmountWidget(){
@@ -205,6 +207,28 @@ const select = {
       thisProduct.amountWidgetElem.addEventListener('updated', function(){
         thisProduct.processOrder()
       });
+    }
+    addToCart(){
+      const thisProduct = this;
+
+      app.cart.add(thisProduct.prepareCartProduct());
+    }
+    prepareCartProduct(){
+      
+      const thisProduct = this;
+
+      const productSummary = {
+        id: thisProduct.id,
+        name: thisProduct.data.name,
+        amount: thisProduct.amountWidget.value,
+        priceSingle: thisProduct.priceSingle,
+        price: thisProduct.priceSingle * thisProduct.amountWidget.value,
+        params:{},
+      };
+      return productSummary;
+    }
+    prepareCartProductParams(){
+      
     }
   }
   class AmountWidget{
@@ -289,6 +313,12 @@ const select = {
         event.preventDefault(); // guzik ORDER nie powoduje przeladowania strony
         thisCart.dom.wrapper.classList.toggle(classNames.menuProduct.cart.wrapperActive); // inaczej 'active' xd
       });
+    }
+    
+    add(menuProduct){
+      // const thisCart = this;
+
+      console.log('adding product', menuProduct);
     }
   }
   const app = {
