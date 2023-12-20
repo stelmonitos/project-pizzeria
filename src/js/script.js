@@ -381,9 +381,10 @@ const select = {
       const thisCartProduct = this;
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidgetElem);
       thisCartProduct.dom.amountWidgetElem.addEventListener('updated', function(){
-        // thisCartProduct.amount = menuProduct.amount;
-        // thisCartProduct.price = thisCartProduct.amount.value * thisCartProduct.priceSingle;
+        thisCartProduct.amount = thisCartProduct.amountWidget.value;
+        thisCartProduct.price = thisCartProduct.amount * thisCartProduct.priceSingle;
 
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price
       });
     }
   }
