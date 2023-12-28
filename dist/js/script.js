@@ -163,13 +163,11 @@ const select = {
       for(let paramId in thisProduct.data.params) {
         //determine param value, e.g paramId = 'toppings', param = {label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
-        // console.log(paramId, param);
         // for every option in this category
         for(let optionId in param.options) {
           // dtermine option Value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
           const optionImage = thisProduct.imageWrapper.querySelector('.'+ paramId +'-'+ optionId);
-          // console.log(optionId, option);
           // check if there is param with a name of paramId in formData and if it includes optionId
           if(formData[paramId] && formData[paramId].includes(optionId)) {
             // check if the option is not default
@@ -318,7 +316,7 @@ const select = {
       thisCart.getElements(element);
       thisCart.initActions();
 
-      console.log('new Cart', thisCart);
+      // console.log('new Cart', thisCart);
     }
     getElements(element){
       const thisCart = this;
@@ -326,9 +324,16 @@ const select = {
       thisCart.dom = {};
 
       thisCart.dom.wrapper = element;
+
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
-    }
+      thisCart.dom.deliveryFee = thisCart.dom.wrapper.querySelector(select.cart.deliveryFee);
+      thisCart.dom.subtotalPrice = thisCart.dom.wrapper.querySelector(select.cart.subtotalPrice);
+      thisCart.dom.totalPrice = thisCart.dom.wrapper.querySelectorAll(select.cart.totalPrice);
+      thisCart.dom.totalNumber = thisCart.dom.wrapper.querySelector(select.cart.totalNumber);
+    }      
+    
+
     initActions(){
       const thisCart = this;
 
@@ -347,9 +352,37 @@ const select = {
 
       thisCart.dom.productList.appendChild(generatedDOM);
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
-      console.log('essa', new CartProduct(menuProduct, generatedDOM))
-      // console.log('thisCart.products', thisCart.products)
-      // console.log('adding product', menuProduct);
+      thisCart.update();
+    }
+    update(){
+      const thisCart = this;
+
+      let deliveryFee = settings.cart.defaultDeliveryFee;
+      let totalNumber = 0;
+      let subtotalPrice = 0;
+
+      for(let product of thisCart.products){
+        totalNumber += product.amount;
+        subtotalPrice += product.price;
+      }
+       if(totalNumber == 0){
+        deliveryFee = 0;
+      }
+      thisCart.totalPrice = deliveryFee + subtotalPrice;
+     
+      thisCart.dom.totalNumber.innerHTML = totalNumber;
+      thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
+      thisCart.dom.deliveryFee.innerHTML = deliveryFee;
+      
+      for(let totalPrice of thisCart.dom.totalPrice){
+        totalPrice.innerHTML = thisCart.totalPrice;
+      }
+
+      console.log('totalNumber',totalNumber);
+      console.log('subtotalPrice',subtotalPrice);
+      console.log('deliveryFee',deliveryFee);
+      console.log('thisCart.totalPrice',thisCart.totalPrice);
+      
     }
   }
   class CartProduct{
@@ -382,9 +415,9 @@ const select = {
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidgetElem);
       thisCartProduct.dom.amountWidgetElem.addEventListener('updated', function(){
         thisCartProduct.amount = thisCartProduct.amountWidget.value;
-        thisCartProduct.price = thisCartProduct.amount * thisCartProduct.priceSingle;
+        thisCartProduct.price = thisCartProduct.amountWidget.value * thisCartProduct.priceSingle;
 
-        thisCartProduct.dom.price.innerHTML = thisCartProduct.price
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
       });
     }
   }
@@ -392,7 +425,6 @@ const select = {
     initMenu: function(){
       const thisApp = this;
 
-      // console.log('thisApp.data:', thisApp.data);
       
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
