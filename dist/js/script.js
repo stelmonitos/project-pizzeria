@@ -343,6 +343,9 @@ const select = {
         event.preventDefault(); // guzik ORDER nie powoduje przeladowania strony
         thisCart.dom.wrapper.classList.toggle(classNames.menuProduct.cart.wrapperActive); // inaczej 'active' xd
       });
+      thisCart.dom.productList.addEventListener('updated', function(){
+        thisCart.update();
+      });
     }
     
     add(menuProduct){
