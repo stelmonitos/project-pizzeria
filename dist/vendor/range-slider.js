@@ -2,6 +2,7 @@ import * as dom from './rangeSlider-0.4.11/src/utils/dom';
 import * as func from './rangeSlider-0.4.11/src/utils/functions';
 import './range-slider.css';
 
+
 const newLineAndTabRegexp = new RegExp('/[\\n\\t]/', 'g');
 const MAX_SET_BY_DEFAULT = 100;
 const HANDLE_RESIZE_DELAY = 300;
