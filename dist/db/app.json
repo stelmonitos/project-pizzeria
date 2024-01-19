@@ -208,8 +208,8 @@
     "events": [
       {
         "id": 1,
-        "date": "2024-01-16",
-        "hour": "12:30",
+        "date": "2024-01-20",
+        "hour": "16:30",
         "table": 1,
         "repeat": false,
         "duration": 4,
