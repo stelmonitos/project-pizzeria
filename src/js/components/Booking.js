@@ -11,7 +11,9 @@ class Booking {
         thisBooking.render(element);
         thisBooking.initWidgets();
         thisBooking.getData();
-    }         
+        thisBooking.initTables();
+        thisBooking.selectedTable = null;
+    }
     
     getData() {
         const thisBooking = this;
@@ -163,6 +165,7 @@ class Booking {
         thisBooking.dom = {};
         thisBooking.dom.wrapper = element;
         thisBooking.dom.wrapper.innerHTML = generatedHTML;
+
         thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
         thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
         thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
@@ -172,6 +175,7 @@ class Booking {
     
     initWidgets() {
         const thisBooking = this;
+
         thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
         thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
 
@@ -181,8 +185,51 @@ class Booking {
         thisBooking.dom.wrapper.addEventListener('updated', function(){
             thisBooking.udapteDOM();
         });
-    
+        thisBooking.dom.wrapper.addEventListener('click', function(){
+            thisBooking.udapteDOM();
+        });
+
     }
+
+    initTables() {
+        const thisBooking = this;
+        for(let table of thisBooking.dom.tables){
+            table.addEventListener('click', function(event){
+
+                if(table.classList.contains(classNames.booking.tableBooked)){
+                    alert('This table is already booked!');
+                } else if(!table.classList.contains(classNames.booking.selected)){
+                    table.classList.add(classNames.booking.selected);
+                    thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
+                    console.log('tableId', thisBooking.tableId);
+                }else {
+                    table.classList.remove(classNames.booking.selected);
+                   
+                }
+            });
+        }
+    }
+    selectTable(tableElement) {
+        const tableId = parseInt(tableElement.getAttribute('data-table'));
+        if (tableId) {
+          // Sprawdzamy czy stolik nie jest już zaznaczony
+          if (this.selectedTable !== tableId) {
+            // Usuwamy zaznaczenie z poprzedniego stolika
+            if (this.selectedTable) {
+              const previousSelectedElement = this.element.querySelector(`.table[data-table-id="${this.selectedTable}"]`);
+              previousSelectedElement.classList.remove('selected');
+            }
+    
+            // Zaznaczamy nowy stolik
+            tableElement.classList.add('selected');
+            this.selectedTable = tableId; // aktualizujemy właściwość wybranego stolika
+          } else {
+            // Jeśli kliknięto ponownie na ten sam stolik, usuwamy zaznaczenie
+            tableElement.classList.remove('selected');
+            this.selectedTable = null;
+          }
+        }
+      }
 }
 
 export default Booking; 
