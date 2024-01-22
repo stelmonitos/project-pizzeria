@@ -198,11 +198,16 @@ class Booking {
                     if(table.classList.contains(classNames.booking.tableBooked)){
                         alert('This table is already booked!');
                     } else {
-                        for(let tableElement of thisBooking.dom.tables){
-                            tableElement.classList.remove(classNames.booking.selected);
+                        if(table.classList.contains(classNames.booking.selected)){
+                            table.classList.remove(classNames.booking.selected);
+                            thisBooking.selectedTable = null;
+                        } else {
+                            for(let table of thisBooking.dom.tables){
+                                table.classList.remove(classNames.booking.selected);
+                            }
+                            table.classList.add(classNames.booking.selected);
+                            thisBooking.selectedTable = tableId;
                         }
-                        table.classList.toggle(classNames.booking.selected);
-                        thisBooking.selectedTable = tableId;
                     }
                 });
             }
