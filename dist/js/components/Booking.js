@@ -137,7 +137,6 @@ class Booking {
         ){
             allAvailable = true;
         }
-
         for(let table of thisBooking.dom.tables){
             let tableId = table.getAttribute(settings.booking.tableIdAttribute);
 
@@ -154,6 +153,9 @@ class Booking {
             } else {
                 table.classList.remove(classNames.booking.tableBooked);
             }
+        }
+        for(let table of thisBooking.dom.tables){
+            table.classList.remove(classNames.booking.selected);
         }
     }
 
@@ -185,51 +187,69 @@ class Booking {
         thisBooking.dom.wrapper.addEventListener('updated', function(){
             thisBooking.udapteDOM();
         });
-        thisBooking.dom.wrapper.addEventListener('click', function(){
-            thisBooking.udapteDOM();
-        });
-
     }
 
-    initTables() {
-        const thisBooking = this;
-        for(let table of thisBooking.dom.tables){
-            table.addEventListener('click', function(event){
-
-                if(table.classList.contains(classNames.booking.tableBooked)){
-                    alert('This table is already booked!');
-                } else if(!table.classList.contains(classNames.booking.selected)){
-                    table.classList.add(classNames.booking.selected);
-                    thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
-                    console.log('tableId', thisBooking.tableId);
-                }else {
-                    table.classList.remove(classNames.booking.selected);
-                   
-                }
-            });
-        }
-    }
-    selectTable(tableElement) {
-        const tableId = parseInt(tableElement.getAttribute('data-table'));
-        if (tableId) {
-          // Sprawdzamy czy stolik nie jest już zaznaczony
-          if (this.selectedTable !== tableId) {
-            // Usuwamy zaznaczenie z poprzedniego stolika
-            if (this.selectedTable) {
-              const previousSelectedElement = this.element.querySelector(`.table[data-table-id="${this.selectedTable}"]`);
-              previousSelectedElement.classList.remove('selected');
+        initTables() {
+            const thisBooking = this;
+            thisBooking.selectedTable = null;
+            for(let table of thisBooking.dom.tables){
+                const tableId = table.getAttribute(settings.booking.tableIdAttribute);
+                table.addEventListener('click', function(){
+                    if(table.classList.contains(classNames.booking.tableBooked)){
+                        alert('This table is already booked!');
+                    } else if(!table.classList.contains(classNames.booking.tableBooked) && !table.classList.contains(classNames.booking.selected)){
+                        table.classList.add(classNames.booking.selected);
+                        thisBooking.selectedTable = tableId;
+                    } else if(table.classList.contains(classNames.booking.selected)){
+                        table.classList.remove(classNames.booking.selected);
+                        thisBooking.selectedTable = null;
+                    }
+                });
             }
-    
-            // Zaznaczamy nowy stolik
-            tableElement.classList.add('selected');
-            this.selectedTable = tableId; // aktualizujemy właściwość wybranego stolika
-          } else {
-            // Jeśli kliknięto ponownie na ten sam stolik, usuwamy zaznaczenie
-            tableElement.classList.remove('selected');
-            this.selectedTable = null;
-          }
         }
-      }
+
 }
 
 export default Booking; 
+
+
+// initTables() {
+//     const thisBooking = this;
+//     for(let table of thisBooking.dom.tables){
+//         table.addEventListener('click', function(){
+//             if(table.classList.contains(classNames.booking.tableBooked)){
+//                 alert('This table is already booked!');
+//             }else if(!table.classList.contains(classNames.booking.selected)){
+//                 table.classList.add(classNames.booking.selected);
+//                 thisBooking.tableId = null;
+//                 thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
+//                 console.log('tableId', thisBooking.tableId);
+//             }else{
+//                 table.classList.remove(classNames.booking.selected);
+//             }
+//         });
+//         selectTable(table);
+//     }
+// }
+
+// selectTable(tableElement) {
+//     debugger;
+//     const tableId = parseInt(tableElement.getAttribute('data-table'));
+//     if (tableId) {
+//       // Sprawdzamy czy stolik nie jest już zaznaczony
+//       if (this.selectedTable !== tableId) {
+//         // Usuwamy zaznaczenie z poprzedniego stolika
+//         if (this.selectedTable) {
+//           const previousSelectedElement = this.element.querySelector(`.table[data-table-id="${this.selectedTable}"]`);
+//           previousSelectedElement.classList.remove('selected');
+//         }
+//         // Zaznaczamy nowy stolik
+//         tableElement.classList.add('selected');
+//         this.selectedTable = tableId; // aktualizujemy właściwość wybranego stolika
+//       } else {
+//         // Jeśli kliknięto ponownie na ten sam stolik, usuwamy zaznaczenie
+//         tableElement.classList.remove('selected');
+//         this.selectedTable = null;
+//       }
+//     }
+//   }
