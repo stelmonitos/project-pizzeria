@@ -197,12 +197,12 @@ class Booking {
                 table.addEventListener('click', function(){
                     if(table.classList.contains(classNames.booking.tableBooked)){
                         alert('This table is already booked!');
-                    } else if(!table.classList.contains(classNames.booking.tableBooked) && !table.classList.contains(classNames.booking.selected)){
-                        table.classList.add(classNames.booking.selected);
+                    } else {
+                        for(let tableElement of thisBooking.dom.tables){
+                            tableElement.classList.remove(classNames.booking.selected);
+                        }
+                        table.classList.toggle(classNames.booking.selected);
                         thisBooking.selectedTable = tableId;
-                    } else if(table.classList.contains(classNames.booking.selected)){
-                        table.classList.remove(classNames.booking.selected);
-                        thisBooking.selectedTable = null;
                     }
                 });
             }
