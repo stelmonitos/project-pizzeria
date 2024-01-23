@@ -13,6 +13,7 @@ class Booking {
         thisBooking.getData();
         thisBooking.initTables();
         thisBooking.selectedTable = null;
+        thisBooking.starters = [];
     }
     
     getData() {
@@ -120,6 +121,7 @@ class Booking {
             }
             thisBooking.booked[date][hourBlock].push(table);
         }
+
     }
 
     udapteDOM() {
@@ -173,6 +175,7 @@ class Booking {
         thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
         thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
         thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables); 
+        thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.booking.starters);
     }
     
     initWidgets() {
@@ -187,74 +190,79 @@ class Booking {
         thisBooking.dom.wrapper.addEventListener('updated', function(){
             thisBooking.udapteDOM();
         });
+        thisBooking.dom.wrapper.addEventListener('submit', function(event){
+            event.preventDefault();
+            thisBooking.sendBooking();
+        });
     }
 
-        initTables() {
-            const thisBooking = this;
-            thisBooking.selectedTable = null;
-            for(let table of thisBooking.dom.tables){
-                const tableId = table.getAttribute(settings.booking.tableIdAttribute);
-                table.addEventListener('click', function(){
-                    if(table.classList.contains(classNames.booking.tableBooked)){
-                        alert('This table is already booked!');
-                    } else {
-                        if(table.classList.contains(classNames.booking.selected)){
-                            table.classList.remove(classNames.booking.selected);
+    initTables() {
+        const thisBooking = this;
+        thisBooking.selectedTable = null;
+        for(let table of thisBooking.dom.tables){
+            const tableId = table.getAttribute(settings.booking.tableIdAttribute);
+            table.addEventListener('click', function(){
+                if(table.classList.contains(classNames.booking.tableBooked)){
+                    alert('This table is already booked!');
+                } else {
+                    if(table.classList.contains(classNames.booking.selected)){
+                        table.classList.remove(classNames.booking.selected);
                             thisBooking.selectedTable = null;
-                        } else {
-                            for(let table of thisBooking.dom.tables){
-                                table.classList.remove(classNames.booking.selected);
-                            }
-                            table.classList.add(classNames.booking.selected);
-                            thisBooking.selectedTable = tableId;
+                    } else {
+                        for(let table of thisBooking.dom.tables){
+                            table.classList.remove(classNames.booking.selected);
                         }
+                        table.classList.add(classNames.booking.selected);
+                        thisBooking.selectedTable = tableId;
                     }
-                });
-            }
+                }
+            });
+            
         }
+    }
+
+    sendBooking() {
+        const thisBooking = this;
+
+        const url = settings.db.url + '/' + settings.db.bookings;
+        
+        const payload = {
+            date: thisBooking.datePicker.value,
+            hour: thisBooking.dom.hourPicker.value,
+            table: parseInt(thisBooking.selectedTable),
+            duration: parseInt(thisBooking.hoursAmount.value),
+            ppl: parseInt(thisBooking.peopleAmount.value),
+            starters: [],
+        };
+
+        const starter = document.querySelectorAll('input[name="starter"]:checked');
+        for(let item of starter){
+            payload.starters.push(item.value);
+        }
+
+        console.log('payload', payload);
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload), 
+        };
+
+        fetch(url, options)
+            .then(function(response){
+                return response.json();
+            }).then(function(parsedResponse){
+                console.log('parsedResponse', parsedResponse);
+            });
+
+        if(thisBooking.selectedTable !== null){
+            thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
+            thisBooking.udapteDOM();
+        }
+    }
 
 }
 
 export default Booking; 
-
-
-// initTables() {
-//     const thisBooking = this;
-//     for(let table of thisBooking.dom.tables){
-//         table.addEventListener('click', function(){
-//             if(table.classList.contains(classNames.booking.tableBooked)){
-//                 alert('This table is already booked!');
-//             }else if(!table.classList.contains(classNames.booking.selected)){
-//                 table.classList.add(classNames.booking.selected);
-//                 thisBooking.tableId = null;
-//                 thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
-//                 console.log('tableId', thisBooking.tableId);
-//             }else{
-//                 table.classList.remove(classNames.booking.selected);
-//             }
-//         });
-//         selectTable(table);
-//     }
-// }
-
-// selectTable(tableElement) {
-//     debugger;
-//     const tableId = parseInt(tableElement.getAttribute('data-table'));
-//     if (tableId) {
-//       // Sprawdzamy czy stolik nie jest już zaznaczony
-//       if (this.selectedTable !== tableId) {
-//         // Usuwamy zaznaczenie z poprzedniego stolika
-//         if (this.selectedTable) {
-//           const previousSelectedElement = this.element.querySelector(`.table[data-table-id="${this.selectedTable}"]`);
-//           previousSelectedElement.classList.remove('selected');
-//         }
-//         // Zaznaczamy nowy stolik
-//         tableElement.classList.add('selected');
-//         this.selectedTable = tableId; // aktualizujemy właściwość wybranego stolika
-//       } else {
-//         // Jeśli kliknięto ponownie na ten sam stolik, usuwamy zaznaczenie
-//         tableElement.classList.remove('selected');
-//         this.selectedTable = null;
-//       }
-//     }
-//   }
