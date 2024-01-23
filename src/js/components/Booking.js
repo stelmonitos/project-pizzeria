@@ -99,7 +99,7 @@ class Booking {
                 }
             }
         }
-        console.log('thisBooking.booked', thisBooking.booked);
+        // console.log('thisBooking.booked', thisBooking.booked);
 
         thisBooking.udapteDOM();
     }
@@ -240,7 +240,7 @@ class Booking {
             payload.starters.push(item.value);
         }
 
-        console.log('payload', payload);
+        // console.log('payload', payload);
 
         const options = {
             method: 'POST',
@@ -254,7 +254,7 @@ class Booking {
             .then(function(response){
                 return response.json();
             }).then(function(parsedResponse){
-                console.log('parsedResponse', parsedResponse);
+                // console.log('parsedResponse', parsedResponse);
             });
 
         if(thisBooking.selectedTable !== null){
