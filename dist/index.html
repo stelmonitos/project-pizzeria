@@ -69,31 +69,7 @@
 
   <div id="pages">
     <section id="home">
-      <div class="home-wrapper container">
-        <div id="home-page" class="home__content">
-          <title>Restaurant Page</title>
-
-</head>
-<body>
-
-<!-- <div class="cta-container">
-  <div class="cta">
-    <img src="https://i.postimg.cc/PJ2pp5P6/pizza-1.jpg" alt="Order Online">
-    <div class="cta-text">Order Online</div>
-  </div>
-  <div class="cta">
-    <img src="https://i.postimg.cc/kXgtrKpL/pizza-2.jpg" alt="Book a Table">
-    <div class="cta-text">Book a Table</div>
-  </div>
-  <div class="hours">
-  Opening Hours: <br>
-  Tue-Sun, 12PM - 12 AM
-  </div>
-</div> -->
-
-
-        </div>
-      </div>
+      <div class="home-wrapper container"></div>
     </section>
     <section id="order">
       <div id="product-list" class="product-list container"></div>
@@ -101,8 +77,31 @@
     <section id="booking">
       <div class="booking-wrapper container"></div>
     </section>
-
   </div>
+
+  <script id="template-home-page" type="text/x-handlebars-template">
+    <div class="container">
+      <section>
+        <div class="first-section container">
+        <a href="#/order">
+          <img src="https://i.postimg.cc/PJ2pp5P6/pizza-1.jpg" alt="pizza-photo">
+          <div class="text">
+            <h1>ORDER ONLINE</h1>
+            <h3>Delicious food delivered to your door</h3>
+          </div>
+        </a>
+          
+        <a href="#/booking">
+          <img src="https://i.postimg.cc/kXgtrKpL/pizza-2.jpg" alt="people-eating">
+          <div class="text">
+            <h1>ORDER ONLINE</h1>
+            <h3>Delicious food delivered to your door</h3>
+          </div>
+        </a>
+      </div>
+      </section>
+    </div>
+  </script>
 
   <script id="template-booking-widget" type="text/x-handlebars-template">
     <div class="booking-widget">

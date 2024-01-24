@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500&display=swap');
+
+.first-section {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  position: relative;
+  box-sizing: border-box;
+}
+.first-section img {
+  width: 100%;
+  margin-top: 10%;
+  height: 150px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+.first-section .text {
+  width: 50%;
+  margin-top: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
+  font-family: 'Roboto Condensed', sans-serif;
+  
+}
