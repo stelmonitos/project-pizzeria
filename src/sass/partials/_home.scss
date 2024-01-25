@@ -91,12 +91,15 @@
     margin: 0;
   }
 }
+
+// CAUROSEL
+
 .main-carousel{
   margin-top: 20px;
   padding-top: 100px;
 }
 .carousel-cell{
-  display: block;
+  display: flex;
 }
 .carousel-cell img{
   height: 250px;
@@ -107,7 +110,11 @@
 }
 
 .carousel-cell .text2{
-  right: 50%;
+  padding: 0 20px;
+  font-size: 12px;
+      h1 {
+        text-transform: uppercase;
+      }
 }
 
 .carousel-cell-image {

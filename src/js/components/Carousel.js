@@ -1,4 +1,3 @@
-import Flickity from 'vendor/flickity.pkgd.min.js';
 
 class Carousel {
     constructor(element) {
@@ -16,7 +15,7 @@ class Carousel {
     }
 
     initActions(){
-        var element = document.querySelector('.main-carousel');
+        const element = document.querySelector('.main-carousel');
         new Flickity( element, {
             cellAlign: 'left',
             contain: true,
