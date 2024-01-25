@@ -6,19 +6,66 @@
   flex-direction: row;
   position: relative;
   box-sizing: border-box;
-}
-.first-section img {
-  width: 100%;
-  margin-top: 10%;
-  height: 150px;
-  border-radius: 5px;
-  object-fit: cover;
-}
-.first-section .text {
-  width: 50%;
-  margin-top: 10%;
-  margin-left: 10%;
-  margin-right: 10%;
-  font-family: 'Roboto Condensed', sans-serif;
+
+  a {
+    display: block;
+    position: relative;
+    text-align: center;
+    color: white; // Choose a text color that stands out against your images
+    text-decoration: none;
+    padding: 5px;
+  }
+
+  .text {
+    position: absolute;
+    margin: 0 auto;
+    top: 50%; // Centers vertically
+    left: 50%; // Centers horizontally
+    transform: translate(-50%, -50%);
+    text-transform: uppercase;
+    text-align: center;
+    transition: top 0.5s ease-in-out; // Add transition property for smooth animation
+  }
+
+  img {
+    margin-top: 10%;
+    height: 125px;
+    width: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+    justify-content: space-between;
+  }
+
+  .text h1 {
+    font-family: $font-header;
+    font-size: 25px;
+    position: relative;
+  }
+
+  .text h5 {
+    position: absolute;
+    opacity: 0;
+  }
+    &:hover {
+      h5 {
+        top: 100%;
+        opacity: 1;
+        transition: opacity 1s, transform 1s ease-in-out;
+      }
+      .text {
+        top: 30%; // Adjust the desired position for the text
+      }
+    }
   
+
+  // &:hover {
+  //   h5 {
+  //     top: 100%;
+  //     opacity: 1;
+  //     transition: opacity 1s, transform 1s ease-in-out;
+  //   }
+  //   .text {
+  //     top: 40%; // Adjust the desired position for the text
+  //   }
+  // }
 }
