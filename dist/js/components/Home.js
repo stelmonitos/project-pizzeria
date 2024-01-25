@@ -1,5 +1,6 @@
 import {templates} from '../settings.js';
 import utils from '../utils.js';
+import Carousel from './Carousel.js';
 
 class Home {
     constructor(container) {
@@ -8,7 +9,7 @@ class Home {
         thisHome.element = container;
 
         thisHome.render(container);
-        // thisHome.initWidgets();
+        thisHome.initWidgets();
     }
 
     render(container){
@@ -20,10 +21,13 @@ class Home {
 
         container.appendChild(thisHome.elementDOM);
 
-        console.log('thisHome.elementDOM', thisHome.elementDOM);
-        
     }
+    
+    initWidgets(){
+        const thisHome = this;
 
+        thisHome.Carousel = new Carousel(thisHome.elementDOM.querySelector('.main-carousel'));
+    }
 
 }
 
