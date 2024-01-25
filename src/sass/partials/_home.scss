@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500&display=swap');
 
+.home-wrapper{
+  margin: ($base-size * 5)  auto;
+  padding: 20px 72px;
+  max-width: 750px;
+  justify-content: center;
+  background-color: $color-light;
+  border-radius: $radius;
+}
+
+
 .first-section {
   display: flex;
   justify-content: space-evenly;
@@ -13,39 +23,8 @@
     text-align: center;
     color: white; // Choose a text color that stands out against your images
     text-decoration: none;
-    padding: 5px;
-  }
-
-  .text {
-    position: absolute;
-    margin: 0 auto;
-    top: 50%; // Centers vertically
-    left: 50%; // Centers horizontally
-    transform: translate(-50%, -50%);
-    text-transform: uppercase;
-    text-align: center;
-    transition: top 0.5s ease-in-out; // Add transition property for smooth animation
-  }
-
-  img {
-    margin-top: 10%;
-    height: 125px;
-    width: 300px;
-    border-radius: 5px;
-    object-fit: cover;
-    justify-content: space-between;
-  }
-
-  .text h1 {
-    font-family: $font-header;
-    font-size: 25px;
-    position: relative;
-  }
-
-  .text h5 {
-    position: absolute;
-    opacity: 0;
-  }
+    padding: 3px;
+    justify-content: center;
     &:hover {
       h5 {
         top: 100%;
@@ -56,16 +35,59 @@
         top: 30%; // Adjust the desired position for the text
       }
     }
-  
+  }
 
-  // &:hover {
-  //   h5 {
-  //     top: 100%;
-  //     opacity: 1;
-  //     transition: opacity 1s, transform 1s ease-in-out;
-  //   }
-  //   .text {
-  //     top: 40%; // Adjust the desired position for the text
-  //   }
-  // }
+  .text {
+    position: absolute;
+    display: block;
+    top: 50%; // Centers vertically
+    left: 50%; // Centers horizontally
+    transform: translate(-50%, -50%);
+    text-transform: uppercase;
+    padding-top: 50px;
+    transition: top 0.5s ease-in-out; // Add transition property for smooth animation
+  }
+
+  img {
+    height: 125px;
+    width: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+    text-align: center;
+  }
+
+  .text h1 {
+    font-family: $font-header;
+    font-size: 25px;
+    position: relative;
+    text-align: center;
+    margin: 0;
+  }
+
+  .text h5 {
+    opacity: 0;
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+}
+
+.opening-hours{
+  text-align: center;
+  border-radius: $radius;
+  width: 605px;
+  height: 125px;
+  background-color: $color-main;
+  padding-top: 12px;
+  color: white;
+  h1{
+    font-family: $font-header;
+    font-size: 25px;
+    margin: 0;
+    padding-top: 20px;
+  }
+  h4{
+    font-weight: lighter;
+    margin: 0;
+  }
 }
