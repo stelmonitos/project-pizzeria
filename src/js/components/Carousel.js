@@ -1,12 +1,12 @@
-
 class Carousel {
     constructor(element) {
         const thisCarousel = this;
 
         thisCarousel.element = element;
 
-        thisCarousel.render();
+        thisCarousel.render(element);
         thisCarousel.initActions();
+        
     }
     render(element) {
         const thisCarousel = this;
@@ -15,8 +15,8 @@ class Carousel {
     }
 
     initActions(){
-        const element = document.querySelector('.main-carousel');
-        new Flickity( element, {
+        const elem = document.querySelector('.main-carousel');
+        new Flickity( elem, {
             cellAlign: 'left',
             contain: true,
             prevNextButtons: false,
