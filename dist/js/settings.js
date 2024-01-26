@@ -49,6 +49,9 @@
     nav: {
       links: '.main-nav a',
     },
+    home: {
+      links: '.first-section a',
+    },
     cart: {
       productList: '.cart__order-summary',
       toggleTrigger: '.cart__summary',
@@ -100,7 +103,7 @@
       defaultDeliveryFee: 20,
     },
     db: {
-      url: '//localhost:3131',
+      url: '//' + window.location.hostname + (window.location.hostname=='localhost' ? ':3131' : ''),
       products: 'products',
       orders: 'orders',
       bookings: 'bookings',
