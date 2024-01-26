@@ -23,7 +23,7 @@ class Carousel {
             prevNextButtons: false,
             autoPlay: true,
         });
-
+        
     }
 }
 export default Carousel;

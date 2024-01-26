@@ -125,3 +125,45 @@
   max-width: 100%;
   
 }
+
+//GALLERY
+
+.gallery{
+  display: grid;
+  margin-top: 150px;
+  grid-template-columns: 211px 211px auto;
+  justify-content: center;
+  
+}
+
+.gallery img{
+  position: relative;
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+  border-radius: 5px;
+  &:hover{
+      opacity: 0.5;
+      transition: 0.75s;
+  }
+}
+.gallery i{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 50px;
+  opacity: 0;
+  transition: 0.75s;
+}
+
+//footer
+.footer a{
+  color: $color-main;
+}
+.footer{
+  margin-top: 20px;
+  position: relative;
+  right: 5px;
+}
